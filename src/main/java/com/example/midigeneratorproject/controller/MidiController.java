@@ -17,7 +17,7 @@ public class MidiController {
         this.fileStorageService = fileStorageService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = {"/", "/index"})
+    @RequestMapping(method = RequestMethod.GET, value = {"/index", "/"})
     public String getIndex() {
         return "index";
     }

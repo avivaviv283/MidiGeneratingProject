@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
+
 <head>
     <div th:replace="~{header :: header}"></div>
+    <link rel="stylesheet" href="/style.css";>
 </head>
 <body>
     <div th:replace="~{header :: nav_header}"></div>
-    <h1>Hi</h1>
 
+    <div class="container">
+        <h1>Welcome to our Music Generation Project</h1>
+        <p>Powered by machine learning, our system generates unique and original compositions in a variety of styles and genres.</p>
+        <a href="music-generator.html" class="button">Start Creating</a>
+    </div>
     <div th:replace="~{footer :: footer}"></div>
 </body>
 </html>
