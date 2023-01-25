@@ -1,6 +1,8 @@
 package com.example.midigeneratorproject.service;
 
+import com.example.midigeneratorproject.entity.Genre;
 import com.example.midigeneratorproject.entity.MidiFile;
+import com.example.midigeneratorproject.repository.GenreRepository;
 import com.example.midigeneratorproject.repository.MidiFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class FileStorageService implements FileStorageInterface {
     @Autowired
     private MidiFileRepository fileRepository;
+    @Autowired
+    private GenreRepository genreRepository;
 
 
     @Override
@@ -63,5 +67,10 @@ public class FileStorageService implements FileStorageInterface {
     @Override
     public Optional<MidiFile> getAllFilesList(Long fileId) {
         return Optional.empty();
+    }
+
+    @Override
+    public List<Genre> getAllGenres() {
+        return genreRepository.findAll();
     }
 }
