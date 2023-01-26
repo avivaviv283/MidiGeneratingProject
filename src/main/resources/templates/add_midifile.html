@@ -27,7 +27,7 @@
                     <div class="form-group blu-margin">
                         <select class="form-control" th:field="${genre.id}"  id="dropOperator">
                             <option value="0">select operator</option>
-                            <option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.genre_name}"></option>
+                            <option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.genreName}"></option>
                         </select>
                     </div>
 

@@ -14,13 +14,13 @@ import java.util.List;
 @Controller
 public class MidiController {
     private FileStorageService fileStorageService;
-    List<Genre> genres = fileStorageService.getAllGenres();
-
+    List<Genre> genres;
 
 
     @Autowired
     public MidiController(FileStorageService fileStorageService) {
         this.fileStorageService = fileStorageService;
+        this.genres = fileStorageService.getAllGenres();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = {"/index", "/"})
@@ -33,13 +33,17 @@ public class MidiController {
     @GetMapping("/AddMidifiles")
     public String addNewMidiFile(Model model) {
         MidiFile midiFile = new MidiFile();
+        Genre genre = new Genre();
         model.addAttribute("midifile", midiFile);
+        model.addAttribute("genre",genre);
+        model.addAttribute("genres",genres);
         return "add_midifile";
     }
     @PostMapping("/midifiles")
     public String saveMidiFile(@ModelAttribute("midifile") MidiFile midiFile,
                                @RequestParam("multiPartFile")MultipartFile file) {
         fileStorageService.saveMidiFile(midiFile, file);
+
         return "redirect:/";
 
     }
