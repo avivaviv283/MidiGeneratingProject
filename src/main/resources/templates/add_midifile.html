@@ -2,6 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <div th:replace="~{header :: header}"></div>
+    <link rel="stylesheet" href="/style.css";>
 </head>
 
 
@@ -13,27 +14,28 @@
 <div class="container">
     <div class="row">
         <!-- support different devices" large device , medium device, small device, and align to center, card=add border -->
-        <div class="col-md-6 col-sm-6 container justify-content-center card">
-            <h3 class="text-center">Create New Midi File</h3>
-
+        <div style="text-align:center; background: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7));" class="col-md-6 col-sm-6 container justify-content-center card">
+            <div  class="title_container">
+                <h1 class="title">Create New Midi File</h1>
+            </div>
             <div class="card-body">
                 <!-- define action for this column -->
                 <!-- to access the student object we are using th:object="${midifile}" -->
 
                 <!-- add here  enctype="multipart/form-data" - for pictures -->
-                <form method="post" th:action="@{/midifiles}" th:object="${midifile}" enctype="multipart/form-data"
-                      style="background-color:#FCEAEA">
+                <form method="post" th:action="@{/midifiles}" th:object="${midifile}" enctype="multipart/form-data">
 
-                    <div class="form-group blu-margin">
-                        <select class="form-control" th:field="${genre.id}"  id="dropOperator">
-                            <option value="0">select operator</option>
+                    <div class="add_file_form">
+                        <label class="label_style"> Choose a Genre</label>
+                        <select style="width: 50%; padding-left: 1vw" class="form-control" th:field="${genre.id}"  id="dropOperator">
+                            <option value="0">Select Genre</option>
                             <option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.genreName}"></option>
                         </select>
-                    </div>
+
 
                     <!-- input image file name -->
                     <div class="form-group">
-                        <label class="col-form-label">Midi File</label>
+                        <label class="label_style">Midi File</label>
                         <input type="file"
                                required
                                class="form-control-file"
@@ -44,13 +46,13 @@
 
                     <!-- submit button -->
                     <div class="box-footer">
-                        <div class="shadow" style="height:40px;width:80px">
+                        <div class="shadow" style="height:40px; width:80px ; padding-top: 15px">
                             <button type="submit" class="btn btn-primary" style="height:40px;width:80px">
                                 Submit
                             </button>
                         </div>
                     </div>
-
+                    </div>
                 </form>
             </div>
         </div>
