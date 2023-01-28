@@ -35,13 +35,22 @@ public class MidiController {
         MidiFile midiFile = new MidiFile();
         Genre genre = new Genre();
         model.addAttribute("midifile", midiFile);
-        model.addAttribute("genre",genre);
-        model.addAttribute("genres",genres);
+        model.addAttribute("genre", genre);
+        model.addAttribute("genres", genres);
         return "add_midifile";
     }
+
+    @GetMapping("/Generator")
+    public String GeneratorPage(Model model) {
+        Genre genre = new Genre();
+        model.addAttribute("genre",genre);
+        model.addAttribute("genres", genres);
+        return "generate_page";
+    }
+
     @PostMapping("/midifiles")
     public String saveMidiFile(@ModelAttribute("midifile") MidiFile midiFile,
-                               @RequestParam("multiPartFile")MultipartFile file) {
+                               @RequestParam("multiPartFile") MultipartFile file) {
         fileStorageService.saveMidiFile(midiFile, file);
 
         return "redirect:/";
