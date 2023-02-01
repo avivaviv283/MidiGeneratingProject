@@ -52,8 +52,15 @@ public class MidiController {
     public String saveMidiFile(@ModelAttribute("midifile") MidiFile midiFile,
                                @RequestParam("multiPartFile") MultipartFile file) {
         fileStorageService.saveMidiFile(midiFile, file);
-
         return "redirect:/";
 
     }
+
+    @PostMapping("/generate")
+    public String generateNewFile(){
+
+        return "redirect:/";
+    }
+
+
 }

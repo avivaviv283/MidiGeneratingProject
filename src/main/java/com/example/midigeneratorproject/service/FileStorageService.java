@@ -4,6 +4,8 @@ import com.example.midigeneratorproject.entity.Genre;
 import com.example.midigeneratorproject.entity.MidiFile;
 import com.example.midigeneratorproject.repository.GenreRepository;
 import com.example.midigeneratorproject.repository.MidiFileRepository;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Getter
+@Setter
 public class FileStorageService implements FileStorageInterface {
     @Autowired
     private MidiFileRepository fileRepository;
@@ -23,6 +27,7 @@ public class FileStorageService implements FileStorageInterface {
     private GenreRepository genreRepository;
 
 
+    //This service is used to insert a new row into the database.
     @Override
     public MidiFile saveMidiFile(MidiFile midiFile, MultipartFile file) {
       //  String fileName = file.getOriginalFilename();
@@ -47,6 +52,7 @@ public class FileStorageService implements FileStorageInterface {
         return fileRepository.findAll();
     }
 
+    //This service is able to translate a file into a Byte array. we can use the blob field in the database to store the file
     private static void makeBlobForDatabase(MidiFile temp, MultipartFile file) {
         byte[] imageData;
         try {

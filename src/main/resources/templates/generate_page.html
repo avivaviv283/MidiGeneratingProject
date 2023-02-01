@@ -25,6 +25,7 @@
 
                     <div class="add_file_form">
                         <label class="label_style"> Choose a Genre</label>
+                        <select style="width: 50%; padding-left: 1vw" class="form-control" th:field="${genre.id}"  id="dropOperator">
                             <option value="0">Select Genre</option>
                             <option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.genreName}"></option>
                         </select>
