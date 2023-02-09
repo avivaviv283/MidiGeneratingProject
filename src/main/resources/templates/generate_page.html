@@ -23,7 +23,9 @@
 
                 <!-- <form method="post" th:action="@{/midifiles}" th:object="${midifile}" enctype="multipart/form-data"> -->
 
+                <form method="post" th:action="@{/generate}" th:object="${genre}" enctype="multipart/form-data">
                     <div class="add_file_form">
+
                         <label class="label_style"> Choose a Genre</label>
                         <select style="width: 50%; padding-left: 1vw" class="form-control" th:field="${genre.id}"  id="dropOperator">
                             <option value="0">Select Genre</option>

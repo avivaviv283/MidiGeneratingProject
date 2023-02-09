@@ -19,10 +19,9 @@
                 <h1 class="title">Create New Midi File</h1>
             </div>
             <div class="card-body">
-                <!-- define action for this column -->
-                <!-- to access the student object we are using th:object="${midifile}" -->
 
-                <!-- add here  enctype="multipart/form-data" - for pictures -->
+                <!-- to access the object we are using th:object="${midifile}" -->
+
                 <form method="post" th:action="@{/midifiles}" th:object="${midifile}" enctype="multipart/form-data">
 
                     <div class="add_file_form">
@@ -33,7 +32,7 @@
                         </select>
 
 
-                    <!-- input image file name -->
+                    <!-- input file name -->
                     <div class="form-group">
                         <label class="label_style">Midi File</label>
                         <input type="file"

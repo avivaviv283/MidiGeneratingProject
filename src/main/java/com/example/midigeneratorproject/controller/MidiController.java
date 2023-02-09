@@ -2,6 +2,7 @@ package com.example.midigeneratorproject.controller;
 
 import com.example.midigeneratorproject.entity.Genre;
 import com.example.midigeneratorproject.entity.MidiFile;
+import com.example.midigeneratorproject.machineLearningModel.LSTM;
 import com.example.midigeneratorproject.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,6 +49,7 @@ public class MidiController {
         return "generate_page";
     }
 
+
     @PostMapping("/midifiles")
     public String saveMidiFile(@ModelAttribute("midifile") MidiFile midiFile,
                                @RequestParam("multiPartFile") MultipartFile file) {
@@ -57,9 +59,9 @@ public class MidiController {
     }
 
     @PostMapping("/generate")
-    public String generateNewFile(){
-
-        return "redirect:/";
+    public String generateNewFile(@ModelAttribute("genre") Genre genre){
+        LSTM musicModel = new LSTM(genre.getId());
+        return "generate_page";
     }
 
 
