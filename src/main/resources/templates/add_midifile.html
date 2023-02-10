@@ -19,15 +19,12 @@
                 <h1 class="title">Create New Midi File</h1>
             </div>
             <div class="card-body">
-
                 <!-- to access the object we are using th:object="${midifile}" -->
-
                 <form method="post" th:action="@{/midifiles}" th:object="${midifile}" enctype="multipart/form-data">
-
                     <div class="add_file_form">
                         <label class="label_style"> Choose a Genre</label>
-                        <select style="width: 50%; padding-left: 1vw" class="form-control" th:field="${genre.id}"  id="dropOperator">
-                            <option value="0">Select Genre</option>
+                        <select style="width: 50%; padding-left: 1vw" class="form-control" name="dropOperator" id="dropOperator">
+                        <option value="0">Select Genre</option>
                             <option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.genreName}"></option>
                         </select>
 
@@ -42,7 +39,6 @@
                                placeholder="Enter Midi file"
                         >
                     </div>
-
                     <!-- submit button -->
                     <div class="box-footer">
                         <div class="shadow" style="height:40px; width:80px ; padding-top: 15px">

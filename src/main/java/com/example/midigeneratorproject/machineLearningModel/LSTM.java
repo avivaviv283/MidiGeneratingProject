@@ -12,18 +12,18 @@ public class LSTM {
 
     public LSTM(long id){
         this.id=id;
-        System.out.println("Reached function with id:"+ id);
         startModel(id);
     }
 
     private void startModel(long id) {
+        // change path when running from laptop
+        String s = System.getProperty("user.home");
+        System.out.println(s);
         String fetching = "python " + "C:\\Users\\WIN10\\Desktop\\modeltest.py";
         String[] commandToExecute = new String[]{"cmd.exe", "/c", fetching , Long.toString(id)};
 
         try {
-            System.out.println("before opening file with id:"+ id);
             Runtime.getRuntime().exec(commandToExecute);
-            System.out.println("after opening file with id:"+ id);
         } catch (IOException e) {
             e.printStackTrace();
         }

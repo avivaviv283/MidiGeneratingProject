@@ -79,4 +79,9 @@ public class FileStorageService implements FileStorageInterface {
     public List<Genre> getAllGenres() {
         return genreRepository.findAll();
     }
+
+    public Genre findById(Long id){
+        Genre returnedGenre = genreRepository.findById(id).orElse(null);
+        return returnedGenre;
+    }
 }

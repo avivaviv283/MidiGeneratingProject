@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MidiController {
@@ -52,11 +53,16 @@ public class MidiController {
 
     @PostMapping("/midifiles")
     public String saveMidiFile(@ModelAttribute("midifile") MidiFile midiFile,
+                               @RequestParam("dropOperator") Long genreId,
                                @RequestParam("multiPartFile") MultipartFile file) {
-        fileStorageService.saveMidiFile(midiFile, file);
-        return "redirect:/";
+        Genre requestedGenre = fileStorageService.findById(genreId);
+        midiFile.setGenre(requestedGenre);
 
+        fileStorageService.saveMidiFile(midiFile, file);
+
+        return "redirect:/";
     }
+
 
     @PostMapping("/generate")
     public String generateNewFile(@ModelAttribute("genre") Genre genre){
