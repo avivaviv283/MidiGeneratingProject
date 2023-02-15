@@ -19,7 +19,10 @@ public class LSTM {
         // change path when running from laptop
         String s = System.getProperty("user.home");
         System.out.println(s);
-        String fetching = "python " + "C:\\Users\\WIN10\\Desktop\\modeltest.py";
+        //From pc run this:
+        //String fetching = "python " + "C:\\Users\\WIN10\\Desktop\\modeltest.py";
+        //From laptop run this:
+        String fetching = "python " + "C:\\Users\\IMOE001\\IdeaProjects\\MidiGeneratorProject\\modeltest.py";
         String[] commandToExecute = new String[]{"cmd.exe", "/c", fetching , Long.toString(id)};
 
         try {
