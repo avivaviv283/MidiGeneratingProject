@@ -18,7 +18,7 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET, value = {"/", "/index", "/home"})
+    @RequestMapping(method = RequestMethod.GET, value = {"/index", "/home"})
     public String getIndex() {
         return "index";
     }

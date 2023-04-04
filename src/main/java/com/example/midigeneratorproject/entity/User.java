@@ -32,10 +32,17 @@ public class User {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(
-            name="users_roles",
+            name="role",
             joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
             inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
     private Role role;
+
+    public User(String s, String email, String encode, Role role) {
+        this.name=s;
+        this.email=email;
+        this.password=encode;
+        this.role=role;
+    }
 
     public void setId(Long id) {
         this.id = id;
