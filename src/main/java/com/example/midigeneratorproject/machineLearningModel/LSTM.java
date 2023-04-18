@@ -3,32 +3,58 @@ package com.example.midigeneratorproject.machineLearningModel;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.sound.sampled.Line;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 
 @Setter
 @Getter
 public class LSTM {
     static long id;
 
-    public LSTM(long id){
-        this.id=id;
+    public LSTM(long id) {
+        this.id = id;
         startModel(id);
     }
 
-    private void startModel(long id) {
+
+
+    private void startModel(long id){
         // change path when running from laptop
         String s = System.getProperty("user.home");
-        System.out.println(s);
         //From pc run this:
-        //String fetching = "python " + "C:\\Users\\WIN10\\Desktop\\modeltest.py";
+        String fetching = "python " + s + "\\Desktop\\predict.py";
+
         //From laptop run this:
-        String fetching = "python " + "C:\\Users\\IMOE001\\IdeaProjects\\MidiGeneratorProject\\modeltest.py";
-        String[] commandToExecute = new String[]{"cmd.exe", "/c", fetching , Long.toString(id)};
+        //String fetching = "python " + s + "\\IdeaProjects\\MidiGeneratorProject\\modeltest.py";
+
+        System.out.println("Before executing file");
+
+
+        ProcessBuilder pb = new ProcessBuilder();
+        pb.command("cmd.exe", "/c", fetching + " " + id);
 
         try {
-            Runtime.getRuntime().exec(commandToExecute);
+            Process p = pb.start();
+
+            BufferedReader errorReader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
+
+            while((line = errorReader.readLine())!=null){
+                System.out.println(line);
+            }
+            int exitCode = p.waitFor();
+            System.out.println(exitCode);
         } catch (IOException e) {
-            e.printStackTrace();
+
+            throw new RuntimeException(e);
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+
     }
 }

@@ -25,10 +25,10 @@ public class MidiController {
         this.genres = fileStorageService.getAllGenres();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = {"/index", "/"})
-    public String getIndex() {
-        return "index";
-    }
+//    @RequestMapping(method = RequestMethod.GET, value = {"/index", "/"})
+//    public String getIndex() {
+//        return "registration";
+//    }
 
 
     //When I enter this link or press a button that redirects me to this link return the add_midifile HTML page

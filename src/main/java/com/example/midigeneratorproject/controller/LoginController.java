@@ -18,9 +18,12 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET, value = {"/index", "/home"})
-    public String getIndex() {
-        return "index";
+    @RequestMapping(method = RequestMethod.GET, value = {"/","/index", "/home"})
+    public String getIndex(Model model) {
+        UserDto user = new UserDto();
+        model.addAttribute("user", user);
+        model.addAttribute("rolesList", userService.getRoleList());
+        return "registration";
     }
 
 
@@ -62,22 +65,23 @@ public class LoginController {
 
         User existingUser = userService.findUserByEmail(userDto.getEmail());
 
-        if (existingUser != null)
+        if (existingUser != null) {
             result.rejectValue("email", null,
                     "User already registered !!!");
+            System.out.println("Existing user reached");
+        }
 
         if (result.hasErrors()) {
             model.addAttribute("user", userDto);
+            System.out.println("result has errors reached");
             return "/registration";
         }
-
-        if (userDto.getUserRoleStr().equals("ROLE_ADMIN"))
-            userDto.setUserRole(UserRole.ADMIN);
-        else if (userDto.getUserRoleStr().equals("ROLE_USER"))
-            userDto.setUserRole(UserRole.USER);
+        //Default for everyone, admin set manually
+        userDto.setUserRole(UserRole.USER);
+        System.out.println("saving user reached");
 
         userService.saveUser(userDto);
-        return "redirect:/registration?success";
+        return "index";
     }
 
     @GetMapping("/user_home_page")

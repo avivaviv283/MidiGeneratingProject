@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <div th:replace="~{header :: header}"></div>
+  <link rel="stylesheet" href="/style.css";>
+</head>
+<body>
+<div th:replace="~{header :: nav_header}"></div>
+<div class="container">
+<div style="text-align:center; margin-top:3rem; color: white; background: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7));" class="col-md-6 col-sm-6 container justify-content-center card">
+  <form
+    method="post"
+    role="form"
+    th:action="@{/registration}"
+    th:object="${user}"
+  >
+    <h1 style="font-family: 'Apple Chancery'">Registration From</h1>
+    <div th:if="${param.success}">
+      <div class="alert alert-info">
+        Registration successful !!!
+      </div>
+    </div>
+
+    <div>
+      <label class="label_style">First Name</label>
+      <input
+        class="form-control"
+        id="firstName"
+        name="firstName"
+        placeholder="Enter First Name"
+        th:field="*{firstName}"
+        type="text"
+        required minlength="2" maxlength="20"
+        />
+      <p th:errors="*{firstName}" class="text-danger"
+         th:if="${#fields.hasErrors('firstName')}"></p>
+    </div>
+
+    <div>
+      <label class="label_style">Last Name</label>
+      <input
+              class="form-control"
+              id="lastName"
+              name="lastName"
+              placeholder="Enter last name"
+              th:field="*{lastName}"
+              type="text"
+              required minlength="2" maxlength="30"
+      />
+      <p th:errors="*{lastName}" class="text-danger"
+         th:if="${#fields.hasErrors('lastName')}"></p>
+    </div>
+
+    <div class="mb-3">
+      <label class="label_style" for="email">Email</label>
+      <input class="form-control" id="email" name="email" type="email"   placeholder="Enter Email Address">
+      <p class="text-danger" th:errors="*{email}"
+         th:if="${#fields.hasErrors('email')}"></p>
+    </div>
+    <div class="mb-3">
+      <label class="label_style" for="password">Password</label>
+      <input class="form-control" id="password" name="password" type="password">
+      <p class="text-danger" th:errors="*{password}"
+         th:if="${#fields.hasErrors('password')}"></p>
+    </div>
+
+    <div class="mb-3">
+      <button class="btn btn-primary mb-3" type="submit">Register</button>
+      or <a class="link-primary" th:href="@{/login}">Already have an account?</a>
+    </div>
+
+
+
+  </form>
+</div>
+</div>
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>
