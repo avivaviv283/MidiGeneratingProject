@@ -62,12 +62,12 @@ public class UserService implements UserServiceInterface {
     public List<UserDto> findAllUsers() {
         // this is a function in UserRepository class, see in the class
         // use custom Query !!!
-        List<String> userWithRoles = userRepository.getRoles();
+        List<String> usersWithRoles = userRepository.getRoles();
 
         List<UserDto> userDtoList = new ArrayList<>();
-        for (int i = 0; i < userWithRoles.size(); i++) {
+        for (int i = 0; i < usersWithRoles.size(); i++) {
             UserDto userDto = new UserDto();
-            String[] str = userWithRoles.get(i).split(" ");
+            String[] str = usersWithRoles.get(i).split(" ");
             userDto.setFirstName(str[0]);
             userDto.setLastName(str[1]);
             userDto.setEmail(str[2]);

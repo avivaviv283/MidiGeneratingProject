@@ -22,7 +22,13 @@ public class LoginController {
     public String getIndex(Model model) {
         UserDto user = new UserDto();
         model.addAttribute("user", user);
-        model.addAttribute("rolesList", userService.getRoleList());
+        return "registration";
+    }
+
+   @GetMapping("/registration")
+    public String getRegistration(Model model) {
+        UserDto user = new UserDto();
+        model.addAttribute("user", user);
         return "registration";
     }
 
@@ -30,7 +36,7 @@ public class LoginController {
     @GetMapping("/getUsers")
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.findAllUsers());
-        return "users";
+        return "admin_hub";
     }
 
     // see - https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/form.html
@@ -41,7 +47,7 @@ public class LoginController {
 
     @RequestMapping("/user/")
     public String loginFormUser() {
-        return "user";
+        return "admin_hub";
     }
 
 
@@ -73,13 +79,6 @@ public class LoginController {
         userService.saveUser(userDto);
         return "index";
     }
-
-    @GetMapping("/user_home_page")
-    public String UserHomePage(Model model) {
-        UserDto user = new UserDto();
-        model.addAttribute("user", user);
-        return "user_page";
-    }
-
+    //@GetMapping("/user_list")
 
 }

@@ -19,14 +19,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     We have tell Spring to treat that query as native one --> ** nativeQuery = true **.
     Otherwise, it will try to validate it according to the JPA specification.
      */
-    @Query(value = "select  CONCAT(database1.users.name,' '" +
-            " ,database1.users.email,' '," +
-            " database1.roles.name)\n" +
-            "from roles,\n" +
-            "     users,\n" +
-            "     users_roles\n" +
-            "where roles.id = users_roles.role_id\n" +
-            "  and users.id = users_roles.user_id", nativeQuery = true)
+    @Query(value = "SELECT CONCAT(users.name, ' ', users.email, ' ', roles.name) " +
+            "FROM users " +
+            "INNER JOIN roles ON users.role = roles.id", nativeQuery = true)
     List<String> getRoles();
 
 }
