@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -16,6 +17,14 @@ import java.util.List;
 @Entity
 @Table(name="users")
 public class User {
+
+    public User(String name, String email, String password, Role role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -27,28 +36,20 @@ public class User {
     @Column(nullable = false,unique = true)
     private String email;
 
-    @Column(nullable = false,length = 50)
+    @Column(nullable = false, length = 64)
     private String password;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(
-            name="role",
-            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
-            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="role")
     private Role role;
 
-    public User(String s, String email, String encode, Role role) {
-        this.name=s;
-        this.email=email;
-        this.password=encode;
-        this.role=role;
+
+    public List getRoles() {
+        List<Role> roles = new ArrayList<>();
+        roles.add(role);
+        return roles;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public Long getId() {
-        return id;
-    }
+
 }

@@ -33,17 +33,16 @@ public class LSTM {
 
         System.out.println("Before executing file");
 
-
         ProcessBuilder pb = new ProcessBuilder();
         pb.command("cmd.exe", "/c", fetching + " " + id);
 
         try {
             Process p = pb.start();
 
-            BufferedReader errorReader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            BufferedReader inputReader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line;
 
-            while((line = errorReader.readLine())!=null){
+            while((line = inputReader.readLine())!=null){
                 System.out.println(line);
             }
             int exitCode = p.waitFor();

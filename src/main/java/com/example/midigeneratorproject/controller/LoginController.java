@@ -18,7 +18,7 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET, value = {"/","/index", "/home"})
+    @RequestMapping(method = RequestMethod.GET, value = {"/", "/home"})
     public String getIndex(Model model) {
         UserDto user = new UserDto();
         model.addAttribute("user", user);
@@ -44,17 +44,7 @@ public class LoginController {
         return "user";
     }
 
-    /*
-    TO registration.html
-     */
 
-    @GetMapping("/registration")
-    public String registrationForm(Model model) {
-        UserDto user = new UserDto();
-        model.addAttribute("user", user);
-        model.addAttribute("rolesList", userService.getRoleList());
-        return "registration";
-    }
 
     /*
     FROM registration.html

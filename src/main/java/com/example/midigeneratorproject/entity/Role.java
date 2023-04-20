@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Setter
@@ -30,4 +31,5 @@ public class Role
     public Role(String name) {
         this.name = name;
     }
+
 }

@@ -49,6 +49,10 @@ public class MidiController {
         model.addAttribute("genres", genres);
         return "generate_page";
     }
+    @GetMapping("/index")
+    public String IndexPage( ) {
+        return "index";
+    }
 
 
     @PostMapping("/midifiles")
