@@ -44,7 +44,7 @@ public class SpringSecurity {
                                 form
                                         .loginPage("/login")
                                         .loginProcessingUrl("/login")
-                                        .defaultSuccessUrl("/user/")
+                                        .defaultSuccessUrl("/index/")
                                         .permitAll();
                             }
                         }

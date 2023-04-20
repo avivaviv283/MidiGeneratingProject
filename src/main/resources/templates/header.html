@@ -25,10 +25,14 @@
         <!-- Navbar links -->
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
-                <li sec:authorize="hasRole('User')" class="nav-item">
+                <li sec:authorize="hasRole('USER') or hasRole('ADMIN')" class="nav-item">
+                    <a class="nav-link" th:href="@{/index}">Home</a>
+                </li>
+                <li sec:authorize="hasRole('USER') or hasRole('ADMIN')" class="nav-item">
                     <a class="nav-link" th:href="@{/AddMidifiles}">Add Midi Files</a>
                 </li>
-                <li sec:authorize="hasRole('USER')" class="nav-item">
+
+                <li sec:authorize="hasRole('USER') or hasRole('ADMIN')" class="nav-item">
                     <a class="nav-link" th:href="@{/Generator}">Start Creating</a>
                 </li>
                 <li sec:authorize="hasRole('ADMIN')" class="nav-item">
@@ -37,15 +41,15 @@
 
             </ul>
             <!--/* displayed if account IS NOT null, indicating that the user IS logged in */-->
-            <div th:if="${#authorization.expression('isAuthenticated()')}">
-                <div th:inline="text"><span th:text="${#authentication.name}"></span>!</div>
+            <div style="margin-left: auto;text-align: center" th:if="${#authorization.expression('isAuthenticated()')}">
+                <div style="color: white" th:inline="text"><span th:text="${#authentication.name}"></span>!</div>
                 <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
-                <div ><span sec:authentication="principal.authorities"/></div>
+                <div style="color: white"><span sec:authentication="principal.authorities"/></div>
             </div>
 
             <!--/* displayed if account IS null, indicating that the user IS NOT logged in */-->
             <div th:unless="${#authorization.expression('isAuthenticated()')}">
-                <div>no user logged in</div>
+                <div style="margin-left: auto; color: white;">no user logged in</div>
             </div>
 
         </div>

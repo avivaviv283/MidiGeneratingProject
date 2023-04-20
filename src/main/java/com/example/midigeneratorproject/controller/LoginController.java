@@ -33,10 +33,10 @@ public class LoginController {
     }
 
 
-    @GetMapping("/getUsers")
+    @GetMapping("/UserList")
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.findAllUsers());
-        return "admin_hub";
+        return "user_list";
     }
 
     // see - https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/form.html
@@ -45,9 +45,9 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping("/user/")
+    @RequestMapping("/index/")
     public String loginFormUser() {
-        return "admin_hub";
+        return "index";
     }
 
 
@@ -79,6 +79,5 @@ public class LoginController {
         userService.saveUser(userDto);
         return "index";
     }
-    //@GetMapping("/user_list")
 
 }
