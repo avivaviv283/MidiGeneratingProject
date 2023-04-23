@@ -52,6 +52,9 @@ public class FileStorageService implements FileStorageInterface {
         return fileRepository.findAll();
     }
 
+    public MidiFile findMidiFileByName(String name) {
+        return fileRepository.findByFileName(name);
+    }
     //This service is able to translate a file into a Byte array. we can use the blob field in the database to store the file
     private static void makeBlobForDatabase(MidiFile temp, MultipartFile file) {
         byte[] imageData;

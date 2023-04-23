@@ -3,6 +3,7 @@
 <head>
     <div th:replace="~{header :: header}"></div>
     <link rel="stylesheet" href="/style.css";>
+    <script type="text/javascript" src="/JavaScript/midi-player.js"></script>
 </head>
 <body>
 <div th:replace="~{header :: nav_header}"></div>
@@ -23,7 +24,7 @@
 
                 <!-- <form method="post" th:action="@{/midifiles}" th:object="${midifile}" enctype="multipart/form-data"> -->
 
-                <form method="post" th:action="@{/generate}" th:object="${genre}" enctype="multipart/form-data">
+                <form id="formID" method="post" th:action="@{/generate}" th:object="${genre}" enctype="multipart/form-data">
                     <div class="add_file_form">
 
                         <label class="label_style"> Choose a Genre</label>
@@ -36,14 +37,37 @@
                         <!-- submit button -->
                         <div class="box-footer">
                             <div class="shadow" style="height:40px; width:80px ; padding-top: 15px">
-                                <button type="submit" class="btn btn-primary" style="height:40px;width:80px">
+                                <button id="generate-btn" type="submit" class="btn btn-primary" style="height:40px;width:80px">
                                     Generate
                                 </button>
                             </div>
                         </div>
+                        <script>
+                            // Add event listener to the submit button
+                            document.getElementById("generate-btn").addEventListener("click", function(event) {
+                                event.preventDefault(); // Prevent the default form submit action
+                                show_notification(); // Call the show_notification function
+                                document.getElementById("formID").submit(); // Submit the form
+
+                            });
+                        </script>
+
                     </div>
                 </form>
             </div>
+            <div id="midi-player-div" style="visibility: hidden">
+                    <audio id="midi-audio" th:audio="${midiURL}" controls></audio>
+            </div>
+            <script>
+                const audioElement = document.getElementById('midi-audio');
+                const playerDiv = document.getElementById('midi-player-div');
+
+                audioElement.addEventListener('loadeddata', () => {
+                    console.log("should be visible")
+                    playerDiv.style.visibility = 'visible';
+                });
+            </script>
+
         </div>
     </div>
 </div>

@@ -66,7 +66,7 @@ public class SpringSecurity {
     // Configuring web security to ignore requests to the CSS and CSS images directories
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/css/**", "/css_images/**");
+        return (web) -> web.ignoring().requestMatchers("/css/**", "/css_images/**","JavaScript/**");
     }
 
 }
