@@ -37,10 +37,6 @@ public class MidiGeneratorProjectApplication implements CommandLineRunner {
 			new Role("ROLE_ADMIN"));
 			userRepository.save(user);
 
-//			user = new User("user user", "user@gmail.com", passwordEncoder.encode("user"),
-//					new Role("ROLE_USER"));
-//			userRepository.save(user);
-
 		}
 
 	}

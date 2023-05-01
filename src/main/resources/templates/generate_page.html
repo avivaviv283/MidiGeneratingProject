@@ -4,6 +4,7 @@
     <div th:replace="~{header :: header}"></div>
     <link rel="stylesheet" href="/style.css";>
     <script type="text/javascript" src="/JavaScript/midi-player.js"></script>
+
 </head>
 <body>
 <div th:replace="~{header :: nav_header}"></div>
@@ -48,6 +49,8 @@
                                 event.preventDefault(); // Prevent the default form submit action
                                 show_notification(); // Call the show_notification function
                                 document.getElementById("formID").submit(); // Submit the form
+                                document.getElementById("midi-player-div").style.visibility="visible"
+
 
                             });
                         </script>
@@ -55,18 +58,22 @@
                     </div>
                 </form>
             </div>
-            <div id="midi-player-div" style="visibility: hidden">
-                    <audio id="midi-audio" th:audio="${midiURL}" controls></audio>
-            </div>
-            <script>
-                const audioElement = document.getElementById('midi-audio');
-                const playerDiv = document.getElementById('midi-player-div');
+            <div id="midi-player-div" style="visibility: visible">
+                <audio id="midi-player"></audio>
 
-                audioElement.addEventListener('loadeddata', () => {
-                    console.log("should be visible")
-                    playerDiv.style.visibility = 'visible';
-                });
-            </script>
+                <script th:inline="javascript">
+
+                    /* Get the base64 encoded MIDI file from a Thymeleaf attribute */
+                    let base64url = [[${midiURL}]];
+                    let audio = document.getElementById("midi-player");
+                    audio.src = base64url;
+
+                    function playMidi() {
+                        let audio = document.getElementById("midi-player");
+                        audio.play();
+                    }
+                </script>
+            </div>
 
         </div>
     </div>

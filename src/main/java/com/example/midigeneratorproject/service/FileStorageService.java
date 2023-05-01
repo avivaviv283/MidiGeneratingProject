@@ -30,21 +30,19 @@ public class FileStorageService implements FileStorageInterface {
     //This service is used to insert a new row into the database.
     @Override
     public MidiFile saveMidiFile(MidiFile midiFile, MultipartFile file) {
-      //  String fileName = file.getOriginalFilename();
         MidiFile temp = new MidiFile();
         temp.setGenre(midiFile.getGenre());
         temp.setFileName(file.getOriginalFilename());
 
-        // Might need to make sure this is the correct if
         // Make sure uploaded file is a midi file
-     //   if (file.getContentType() == "mid" || file.getContentType() == "midi") {
+        if (file.getContentType() == "mid" || file.getContentType() == "midi") {
             try {
 
                 makeBlobForDatabase(temp, file);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-     //   }
+        }
         return fileRepository.save(temp);
     }
 

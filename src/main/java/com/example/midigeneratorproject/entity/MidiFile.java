@@ -20,7 +20,7 @@ public class MidiFile {
     private Long id;
 
     private String fileName;
-    @Column
+    @Column(nullable = false)
     //the Lob annotation allows to store a byte array (such as a file) in a sql database
     @Lob
     private Blob file;

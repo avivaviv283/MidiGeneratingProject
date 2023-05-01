@@ -14,6 +14,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequencer;
+import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -33,11 +34,6 @@ public class MidiController {
         this.fileStorageService = fileStorageService;
         this.genres = fileStorageService.getAllGenres();
     }
-
-//    @RequestMapping(method = RequestMethod.GET, value = {"/index", "/"})
-//    public String getIndex() {
-//        return "registration";
-//    }
 
 
     //When I enter this link or press a button that redirects me to this link return the add_midifile HTML page
@@ -78,21 +74,22 @@ public class MidiController {
 
 
     @PostMapping("/generate")
-    public String generateNewFile(@ModelAttribute("genre") Genre genre,Model model) throws SQLException, IOException, MidiUnavailableException, InvalidMidiDataException {
+    public String generateNewFile(@ModelAttribute("genre") Genre genre,Model model) throws SQLException, IOException, MidiUnavailableException, InvalidMidiDataException, LineUnavailableException {
         LSTM musicModel = new LSTM(genre.getId());
         MidiFile output = fileStorageService.findMidiFileByName("output_file"+genre.getId());
         Blob midiBlob = output.getFile();
 
-
-        byte[] bytes = midiBlob.getBytes(1, (int)midiBlob.length());
-        String base64String = Base64.getEncoder().encodeToString(bytes);
+        byte[] midiBytes = midiBlob.getBytes(1, (int)midiBlob.length());
+        String base64String = Base64.getEncoder().encodeToString(midiBytes);
         String mimeType = "audio/midi";
         String base64Url = "data:" + mimeType + ";base64," + base64String;
         System.out.println(base64Url);
+
         model.addAttribute("midiURL",base64Url);
 
         return "generate_page";
     }
+
 
 
 }
