@@ -2,6 +2,8 @@ import os
 import numpy
 import keras
 import pickle
+import sys
+import mysql.connector
 from music21 import instrument,note,stream,chord
 from keras.models import Sequential
 from keras.layers import Dense
@@ -11,14 +13,18 @@ from keras.layers import BatchNormalization as BatchNorm
 from keras.layers import Activation
 from keras.layers import Bidirectional
 
- 
+ID = sys.argv[1]
+
 path = os.path.expanduser( '~' )
-weights_file = open(path + "\\model_files\\model_weights.hdf5","rb")
+weights_file = open(path + "\\model_files\\model_weights" + str(ID) + ".hdf5","rb")
+
+ 
+
 
 def generate():
    
 
-    with open(path+"\\model_files\\notes_file","rb") as f:
+    with open(path+"\\model_files\\notes_file"+str(ID),"rb") as f:
         notes = pickle.load(f)
     
     pitchnames = sorted(set(item for item in notes))
@@ -31,11 +37,12 @@ def generate():
     
     prediction_output = generate_notes(model,network_input,pitchnames,n_vocab)
     
+    
     create_midi(prediction_output)
     
 def prepare_sequences(notes,pitchnames,n_vocab):
     note_to_int = dict((note,number) for number,note in enumerate(pitchnames))
-    sequence_length = 100
+    sequence_length = 40
     network_input = []
     network_output = []
     output = []
@@ -56,6 +63,7 @@ def prepare_sequences(notes,pitchnames,n_vocab):
     return (network_input, normalized_input)
 
 def create_network(network_input, n_vocab):
+    print(n_vocab)
     """ create the structure of the neural network """
     model = Sequential()
     model.add(LSTM(
@@ -76,10 +84,13 @@ def create_network(network_input, n_vocab):
     model.add(Activation('softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
     
+    print(model.summary())
     # Load the weights to each node
-    model.load_weights(path + "\\model_files\\model_weights.hdf5")
+    model.load_weights(path + "\\model_files\\model_weights"+ str(ID) + ".hdf5")
 
-    return model   
+    return model 
+ 
+    
 def generate_notes(model, network_input, pitchnames, n_vocab):
     """ Generate notes from the neural network based on a sequence of notes """
     # pick a random sequence from the input as a starting point for the prediction
@@ -89,21 +100,26 @@ def generate_notes(model, network_input, pitchnames, n_vocab):
 
     pattern = network_input[start]
     prediction_output = []
-
+    
+   
+   
     # generate 500 notes
     for note_index in range(500):
+       
         prediction_input = numpy.reshape(pattern, (1, len(pattern), 1))
+            
         prediction_input = prediction_input / float(n_vocab)
-
+            
         prediction = model.predict(prediction_input, verbose=1)
 
-        index = numpy.argmax(prediction)
+        index = numpy.argmax(prediction)   
         result = int_to_note[index]
         prediction_output.append(result)
 
-        pattern.append(index)
+        pattern.append(index)      
         pattern = pattern[1:len(pattern)]
-
+       
+     
     return prediction_output
     
 def create_midi(prediction_output):
@@ -137,9 +153,36 @@ def create_midi(prediction_output):
 
     midi_stream = stream.Stream(output_notes)
 
-    midi_stream.write('midi', fp='C:\\Users\\WIN10\Desktop\\test_output.mid')
+    midi_stream.write('midi', fp='C:\\Users\\WIN10\Desktop\\output_file' + str(ID) + '.mid')
+    
+    output_file = open("C:\\Users\\WIN10\Desktop\\output_file"+ str(ID) + ".mid","rb")
+    
+    cnx = mysql.connector.connect(user='root', password='admin', host ='localhost', database='mididataset')
+    cursor = cnx.cursor()
+    
+    #Convert 'output_file' to bytes and escape any special characters
+    file_data = output_file.read()
+    
+    # Check if file with the same name already exists in database for this genre ID
+    cursor.execute("SELECT COUNT(*) FROM midi_file WHERE file_name = %s AND genreid = %s", ('output_file' + str(ID), ID))
+    result = cursor.fetchone()
+    
+    if result is None or result[0] == 0:
+        # If file doesn't exist, insert it into the database
+        cursor.execute("INSERT INTO midi_file (file, file_name, genreid) VALUES (%s, %s, %s)", (file_data, 'output_file' + str(ID), ID))
+        cnx.commit()
+    #Commit the changes to the database
+    else:
+        cursor.execute("DELETE FROM midi_file WHERE file_name = 'output_file'+ str(ID)")
+        cnx.commit()
+        cursor.execute("INSERT INTO midi_file (file, file_name, genreid) VALUES (%s, %s, %s)", (file_data, 'output_file' + str(ID), ID))
+        cnx.commit()
+        
 
-
+    #Close the cursor and database connection
+    cursor.close()
+    cnx.close()
+    
+    
 generate()
-weights_file.close()
 
