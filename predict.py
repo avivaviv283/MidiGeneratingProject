@@ -153,9 +153,9 @@ def create_midi(prediction_output):
 
     midi_stream = stream.Stream(output_notes)
 
-    midi_stream.write('midi', fp='C:\\Users\\WIN10\Desktop\\output_file' + str(ID) + '.mid')
+    midi_stream.write('midi', fp=path + '\\Desktop\\output_file' + str(ID) + '.mid')
     
-    output_file = open("C:\\Users\\WIN10\Desktop\\output_file"+ str(ID) + ".mid","rb")
+    output_file = open(path + "\\Desktop\\output_file"+ str(ID) + ".mid","rb")
     
     cnx = mysql.connector.connect(user='root', password='admin', host ='localhost', database='mididataset')
     cursor = cnx.cursor()
