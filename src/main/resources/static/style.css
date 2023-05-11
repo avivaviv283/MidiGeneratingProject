@@ -18,6 +18,22 @@ body {
     color: white;
 }
 
+.console-div{
+    margin-top: 5vh;
+    border-radius: 8px;
+    opacity: 0.8;
+    text-align: center;
+    width: 25%;
+    position: relative;
+    left: 37.5%;
+    color: black;
+    visibility: hidden;
+    background-color: white;
+    overflow: scroll;
+    height: 40vh;
+    max-height: 40%;
+}
+
 #Text Styles
 
 title{

@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="/style.css";>
     <script type="text/javascript" src="/JavaScript/midi-player.js"></script>
 
+
 </head>
 <body>
 <div th:replace="~{header :: nav_header}"></div>
@@ -49,7 +50,6 @@
                                 event.preventDefault(); // Prevent the default form submit action
                                 show_notification(); // Call the show_notification function
                                 document.getElementById("formID").submit(); // Submit the form
-                                document.getElementById("midi-player-div").style.visibility="visible"
 
 
                             });
@@ -77,6 +77,24 @@
 
         </div>
     </div>
+</div>
+<div class ="console-div">
+    <p style="color:black;" id="console-output"></p>
+    <script>
+        const updateConsole = () => {
+            fetch('/getConsole') // send GET request to server
+                .then(response => response.text()) // extract response body as text
+                .then(output => {
+                    document.getElementById('console-output').innerHTML = output; // update HTML element with response data
+                    document.getElementsByClassName("console-div")[0].scrollTop=document.getElementsByClassName("console-div")[0].scrollHeight
+                    setTimeout(updateConsole, 1000); // call updateConsole again after 1 second
+                })
+                .catch(error => console.error(error));
+        };
+
+        updateConsole(); // start the update process
+
+    </script>
 </div>
 
 

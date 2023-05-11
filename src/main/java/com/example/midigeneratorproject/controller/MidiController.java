@@ -19,14 +19,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class MidiController {
     private FileStorageService fileStorageService;
     List<Genre> genres;
+    LSTM musicModel;
 
 
     @Autowired
@@ -50,12 +49,13 @@ public class MidiController {
     @GetMapping("/Generator")
     public String GeneratorPage(Model model) {
         Genre genre = new Genre();
-        model.addAttribute("genre",genre);
+        model.addAttribute("genre", genre);
         model.addAttribute("genres", genres);
         return "generate_page";
     }
+
     @GetMapping("/index")
-    public String IndexPage( ) {
+    public String IndexPage() {
         return "index";
     }
 
@@ -72,24 +72,37 @@ public class MidiController {
         return "redirect:/";
     }
 
+    @GetMapping("/getConsole")
+    @ResponseBody
+    public String getConsole() {
+        if (musicModel != null) {
+            return musicModel.getOutput();
+        }
+        return "";
+    }
 
     @PostMapping("/generate")
-    public String generateNewFile(@ModelAttribute("genre") Genre genre,Model model) throws SQLException, IOException, MidiUnavailableException, InvalidMidiDataException, LineUnavailableException {
-        LSTM musicModel = new LSTM(genre.getId());
-        MidiFile output = fileStorageService.findMidiFileByName("output_file"+genre.getId());
+    public String generateNewFile(@ModelAttribute("genre") Genre genre, Model model) throws SQLException, IOException, MidiUnavailableException, InvalidMidiDataException, LineUnavailableException {
+
+        musicModel = new LSTM(genre.getId());
+
+        while (musicModel.getT().isAlive()) {
+            System.out.println(musicModel.getOutput());
+        }
+
+        MidiFile output = fileStorageService.findMidiFileByName("output_file" + genre.getId());
         Blob midiBlob = output.getFile();
 
-        byte[] midiBytes = midiBlob.getBytes(1, (int)midiBlob.length());
+        byte[] midiBytes = midiBlob.getBytes(1, (int) midiBlob.length());
         String base64String = Base64.getEncoder().encodeToString(midiBytes);
         String mimeType = "audio/midi";
         String base64Url = "data:" + mimeType + ";base64," + base64String;
         System.out.println(base64Url);
 
-        model.addAttribute("midiURL",base64Url);
+        model.addAttribute("midiURL", base64Url);
 
         return "generate_page";
     }
-
 
 
 }
