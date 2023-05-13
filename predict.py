@@ -63,7 +63,6 @@ def prepare_sequences(notes,pitchnames,n_vocab):
     return (network_input, normalized_input)
 
 def create_network(network_input, n_vocab):
-    print(n_vocab)
     """ create the structure of the neural network """
     model = Sequential()
     model.add(LSTM(
@@ -83,8 +82,7 @@ def create_network(network_input, n_vocab):
     model.add(Dense(n_vocab))
     model.add(Activation('softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
-    
-    print(model.summary())
+
     # Load the weights to each node
     model.load_weights(path + "\\model_files\\model_weights"+ str(ID) + ".hdf5")
 
