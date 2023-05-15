@@ -23,17 +23,17 @@ public class LSTM {
         startModel(id);
     }
 
-
+    //Starts the thread that runs the prediction script
     private void startModel(long id) {
         t = new Thread() {
             public void run() {
-                // change path when running from laptop
+                //Retrieves the string path of the root directory
                 String s = System.getProperty("user.home");
                 //From pc run this:
-                String fetching = "python " + s + "\\Desktop\\predict.py";
+                //String fetching = "python " + s + "\\Desktop\\predict.py";
 
                 //From laptop run this:
-                //String fetching = "python " + s + "\\IdeaProjects\\MidiGeneratorProject\\modeltest.py";
+                String fetching = "python " + s + "\\IdeaProjects\\MidiGeneratorProject\\predict.py";
 
                 System.out.println("Before executing file");
 
@@ -47,7 +47,6 @@ public class LSTM {
 
 
                     while ((line = inputReader.readLine()) != null) {
-                        //System.out.println(line);
                         output += line + "<br>";
                     }
                     System.out.println(output);

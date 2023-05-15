@@ -35,14 +35,15 @@ public class FileStorageService implements FileStorageInterface {
         temp.setFileName(file.getOriginalFilename());
 
         // Make sure uploaded file is a midi file
-        //       if (file.getContentType() == "mid" || file.getContentType() == "midi") {
-        try {
+        if (file.getContentType() == "audio/mid" || file.getContentType() == "audio/midi") {
+            System.out.println(file.getContentType());
+            try {
 
-            makeBlobForDatabase(temp, file);
-        } catch (Exception e) {
-            e.printStackTrace();
+                makeBlobForDatabase(temp, file);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        //      }
         MidiFile duplicate = fileRepository.findByFileName(temp.getFileName());
         if (duplicate == null) {
             return fileRepository.save(temp);
@@ -51,6 +52,13 @@ public class FileStorageService implements FileStorageInterface {
 
     public List<MidiFile> getFiles() {
         return fileRepository.findAll();
+    }
+
+    public void deleteFileByName(String name) {
+        MidiFile file = findMidiFileByName(name);
+        if (file != null) {
+            fileRepository.delete(file);
+        }
     }
 
     public MidiFile findMidiFileByName(String name) {

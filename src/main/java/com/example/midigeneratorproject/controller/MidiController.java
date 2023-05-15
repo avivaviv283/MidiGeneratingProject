@@ -69,7 +69,7 @@ public class MidiController {
 
         fileStorageService.saveMidiFile(midiFile, file);
 
-        return "redirect:/";
+        return "redirect:/index";
     }
 
     @GetMapping("/getConsole")
@@ -83,14 +83,17 @@ public class MidiController {
 
     @PostMapping("/generate")
     public String generateNewFile(@ModelAttribute("genre") Genre genre, Model model) throws SQLException, IOException, MidiUnavailableException, InvalidMidiDataException, LineUnavailableException {
-
+        //Need to delete previous file from database, so it won't be the one showcased to the user before the prediction process has ended
+        fileStorageService.deleteFileByName("output_file" + genre.getId());
+        //Creating a LSTM instance runs python predict script
         musicModel = new LSTM(genre.getId());
 
         while (musicModel.getT().isAlive()) {
-            System.out.println(musicModel.getOutput());
-        }
 
+            //System.out.println(musicModel.getOutput());
+        }
         MidiFile output = fileStorageService.findMidiFileByName("output_file" + genre.getId());
+
         Blob midiBlob = output.getFile();
 
         byte[] midiBytes = midiBlob.getBytes(1, (int) midiBlob.length());
